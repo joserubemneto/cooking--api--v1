@@ -1,4 +1,3 @@
-const { query } = require('express')
 const { Client } = require('pg')
 
 const client = new Client({
