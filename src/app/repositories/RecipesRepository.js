@@ -29,6 +29,20 @@ class RecipesRepository {
 
     return row
   }
+
+  async update(id, { title, ingredients, preparation, information }) {
+    const [row] = await db.query(`
+      UPDATE recipes
+      SET title = $1,
+      ingredients = $2,
+      preparation = $3,
+      information = $4
+      WHERE id = $5
+      RETURNING *
+    `, [title, ingredients, preparation, information, id])
+
+    return row
+  }
 }
 
 module.exports = new RecipesRepository()
