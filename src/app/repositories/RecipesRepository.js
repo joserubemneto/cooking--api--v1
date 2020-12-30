@@ -10,6 +10,15 @@ class RecipesRepository {
 
     return rows
   }
+
+  async findById(id) {
+    const [row] = await db.query(`
+      SELECT * FROM recipes
+      WHERE id = $1
+    `, [id])
+
+    return row
+  }
 }
 
 module.exports = new RecipesRepository()
