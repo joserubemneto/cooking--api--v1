@@ -1,12 +1,15 @@
+const db = require('../../database')
+
 class RecipesRepository {
-  findAll() {}
+  async findAll(orderBy = 'ASC') {
+    const direction = orderBy.toUpperCase() === 'DESC' ? 'DESC' : 'ASC'
+    const rows = await db.query(`
+      SELECT * FROM recipes
+      ORDER BY title ${direction}
+    `)
 
-  findById() {}
-
-  create() {}
-
-  update() {}
-
-  delete() {}
-
+    return rows
+  }
 }
+
+module.exports = new RecipesRepository()
