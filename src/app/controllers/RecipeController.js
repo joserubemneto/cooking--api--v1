@@ -1,22 +1,12 @@
+const RecipesRepository = require('../repositories/RecipesRepository')
+
 class RecipeController {
-  index(request, response) {
+  async index(request, response) {
+    const { orderBy } = request.query
 
-  }
+    const recipes = await RecipesRepository.findAll(orderBy)
 
-  store(request, response) {
-
-  }
-
-  show(request, response) {
-
-  }
-
-  update(request, response) {
-
-  }
-
-  delete(request, response) {
-
+    response.json(recipes)
   }
 }
 
