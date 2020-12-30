@@ -19,6 +19,16 @@ class RecipesRepository {
 
     return row
   }
+
+  async create({ title, ingredients, preparation, information }) {
+    const [row] = await db.query(`
+      INSERT INTO recipes (title, ingredients, preparation, information)
+      VALUES ($1, $2, $3, $4)
+      RETURNING *
+    `, [title, ingredients, preparation, information])
+
+    return row
+  }
 }
 
 module.exports = new RecipesRepository()
