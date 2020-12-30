@@ -12,7 +12,7 @@ router.put('/recipe/:id', RecipeController.update)
 router.delete('/recipe/:id', RecipeController.delete)
 
 router.get('/categories', CategoryController.index)
-router.post('/categories', CategoryController.post)
+router.post('/categories', CategoryController.store)
 router.get('/category/:id', CategoryController.show)
 router.put('/category/:id', CategoryController.update)
 router.delete('/category/:id', CategoryController.delete)
