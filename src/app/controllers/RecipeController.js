@@ -36,6 +36,14 @@ class RecipeController {
 
     response.json(recipe)
   }
+
+  async delete(request, response) {
+    const { id } = request.params
+
+    await RecipesRepository.delete(id)
+
+    response.sendStatus(200)
+  }
 }
 
 module.exports = new RecipeController()
