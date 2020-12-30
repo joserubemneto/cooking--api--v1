@@ -21,6 +21,16 @@ class RecipeController {
     response.json(recipe)
   }
 
+  async show(request, response) {
+    const { id } = request.params
+
+    const recipe = await RecipesRepository.findById(id)
+
+    if (!recipe) return response.status(404).json({ error: 'Recipe not found' })
+
+    response.json(recipe)
+  }
+
   async update(request, response) {
     const { id } = request.params
     const { title, ingredients, preparation, information } = request.body
