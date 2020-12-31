@@ -29,8 +29,17 @@ class ChefController {
     response.json(chef)
   }
 
-  update() {
+  async update(request, response) {
+    const { id } = request.params
+    const { name } = request.body
 
+    const chefExists = ChefsRepository.findById(id)
+
+    if (!chefExists) return response.status(400).json({ error: 'This chef not exists' })
+
+    const chef = await ChefsRepository.update(id, { name })
+
+    response.json(chef)
   }
 
   delete() {
