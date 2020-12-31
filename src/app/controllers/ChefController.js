@@ -19,8 +19,14 @@ class ChefController {
     response.json(chef)
   }
 
-  show() {
+  async show(request, response) {
+    const { id } = request.params
 
+    const chef = await ChefsRepository.findById(id)
+
+    if (!chef) return response.status(404).json({ error: 'Chef not found' })
+
+    response.json(chef)
   }
 
   update() {
