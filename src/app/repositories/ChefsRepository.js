@@ -11,8 +11,13 @@ class ChefsRepository {
     return rows
   }
 
-  findById() {
+  async findById(id) {
+    const [row] = await db.query(`
+      SELECT * FROM chefs
+      WHERE id = $1
+    `, [id])
 
+    return row
   }
 
   async create({ name }) {
