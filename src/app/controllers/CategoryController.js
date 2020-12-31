@@ -39,15 +39,19 @@ class CategoryController {
 
     const categoryExists = await CategoriesRepository.findById(id)
 
-    if (!categoryExists) return response.status(400).json({ error: 'This category not exist' })
+    if (!categoryExists) return response.status(400).json({ error: 'This category not exists' })
 
     const category = await CategoriesRepository.update(id, { name })
 
     response.json(category)
   }
 
-  delete() {
+  async delete(request, response) {
+    const { id } = request.params
 
+    await CategoriesRepository.delete(id)
+
+    response.sendStatus(200)
   }
 }
 
