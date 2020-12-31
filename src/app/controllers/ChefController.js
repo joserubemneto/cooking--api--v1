@@ -33,7 +33,7 @@ class ChefController {
     const { id } = request.params
     const { name } = request.body
 
-    const chefExists = ChefsRepository.findById(id)
+    const chefExists = await ChefsRepository.findById(id)
 
     if (!chefExists) return response.status(400).json({ error: 'This chef not exists' })
 
@@ -42,8 +42,12 @@ class ChefController {
     response.json(chef)
   }
 
-  delete() {
+  async delete(request, response) {
+    const { id } = request.params
 
+    await ChefsRepository.delete(id)
+
+    response.sendStatus(200)
   }
 }
 
