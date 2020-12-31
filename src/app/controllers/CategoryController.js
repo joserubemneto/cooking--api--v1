@@ -9,8 +9,14 @@ class CategoryController {
     response.json(categories)
   }
 
-  store() {
+  async store(request, response) {
+    const { name } = request.body
 
+    if (!name) return response.send(400).json({ error: 'Name is required' })
+
+    const category = await CategoriesRepository.create({ name })
+
+    response.json(category)
   }
 
   show() {
