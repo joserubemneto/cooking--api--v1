@@ -30,8 +30,14 @@ class ChefsRepository {
     return row
   }
 
-  update() {
+  async update(id, { name }) {
+    const [row] = db.query(`
+      UPDATE chefs
+      SET name = $1
+      WHERE id = $2
+    `, [name, id])
 
+    return row
   }
 
   delete() {
