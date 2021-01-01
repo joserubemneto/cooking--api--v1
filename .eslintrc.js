@@ -16,5 +16,6 @@ module.exports = {
     'consistent-return': 'off',
     'object-curly-newline': 'off',
     'max-len': 'off',
+    camelcase: 'off',
   },
 };
