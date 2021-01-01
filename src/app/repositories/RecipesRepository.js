@@ -29,7 +29,7 @@ class RecipesRepository {
   async create({ title, ingredients, preparation, information, category_id, chef_id }) {
     const [row] = await db.query(`
       INSERT INTO recipes (title, ingredients, preparation, information, category_id, chef_id)
-      VALUES ($1, $2, $3, $4, 5$, 6$)
+      VALUES ($1, $2, $3, $4, $5, $6)
       RETURNING *
     `, [title, ingredients, preparation, information, category_id, chef_id])
 
