@@ -17,5 +17,6 @@ module.exports = {
     'object-curly-newline': 'off',
     'max-len': 'off',
     camelcase: 'off',
+    'no-unused-vars': ['error', { argsIgnorePattern: 'next' }],
   },
 };
