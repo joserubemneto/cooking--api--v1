@@ -16,8 +16,11 @@ class ChefsRepository {
 
   async findById(id) {
     const [row] = await db.query(`
-      SELECT * FROM chefs
-      WHERE id = $1
+      SELECT chefs.*, count(recipes.id) AS recipes
+      FROM chefs
+      LEFT JOIN recipes ON (recipes.chef_id = chefs.id)
+      WHERE chefs.id = $1
+      GROUP BY (chefs.id, chefs.name, chefs.recipes)
     `, [id])
 
     return row
