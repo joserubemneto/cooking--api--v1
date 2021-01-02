@@ -4,7 +4,10 @@ class ChefsRepository {
   async findAll(orderBy = 'ASC') {
     const direction = orderBy.toUpperCase() === 'DESC' ? 'DESC' : 'ASC'
     const rows = await db.query(`
-      SELECT * FROM chefs
+      SELECT chefs.*, count(recipes.id) AS recipes
+      FROM chefs
+      LEFT JOIN recipes ON (recipes.chef_id = chefs.id)
+      GROUP BY (chefs.id, chefs.name, chefs.recipes)
       ORDER BY name ${direction}
     `)
 
