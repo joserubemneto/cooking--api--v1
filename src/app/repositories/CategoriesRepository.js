@@ -5,7 +5,10 @@ class CategoriesRepository {
     const direction = orderBy.toUpperCase() === 'DESC' ? 'DESC' : 'ASC'
 
     const rows = await db.query(`
-      SELECT * FROM categories
+      SELECT categories.*, count(recipes.id) AS recipes
+      FROM categories
+      LEFT JOIN recipes ON recipes.category_id = categories.id
+      GROUP BY (categories.id, categories.name)
       ORDER BY name ${direction}
     `)
 
