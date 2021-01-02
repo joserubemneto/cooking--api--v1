@@ -7,7 +7,7 @@ class ChefsRepository {
       SELECT chefs.*, count(recipes.id) AS recipes
       FROM chefs
       LEFT JOIN recipes ON (recipes.chef_id = chefs.id)
-      GROUP BY (chefs.id, chefs.name, chefs.recipes)
+      GROUP BY (chefs.id, chefs.name)
       ORDER BY name ${direction}
     `)
 
@@ -20,7 +20,7 @@ class ChefsRepository {
       FROM chefs
       LEFT JOIN recipes ON (recipes.chef_id = chefs.id)
       WHERE chefs.id = $1
-      GROUP BY (chefs.id, chefs.name, chefs.recipes)
+      GROUP BY (chefs.id, chefs.name)
     `, [id])
 
     return row
