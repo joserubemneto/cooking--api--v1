@@ -1,5 +1,6 @@
 const express = require('express')
 require('express-async-errors')
+require('dotenv').config()
 
 const app = express()
 const routes = require('./routes')
@@ -11,4 +12,4 @@ app.use((error, request, response, next) => {
   response.sendStatus(500)
 })
 
-app.listen(3000, () => console.log('Server is running on port http://localhost:3000'))
+app.listen(process.env.PORT || 3000, () => console.log('Server is running on port http://localhost:3000'))
