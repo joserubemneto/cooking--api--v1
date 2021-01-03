@@ -6,7 +6,8 @@
   "author": "Jose Rubem <joserubemn31@gmail.com>",
   "license": "MIT",
   "scripts": {
-    "dev": "nodemon src/index"
+    "dev": "nodemon src/index",
+    "start": "node src/index"
   },
   "dependencies": {
     "dotenv": "^8.2.0",
