@@ -10,6 +10,7 @@ const client = new Client({
   user: DB_USER,
   password: DB_PASS,
   database: DB,
+  connectionString: process.env.DATABASE_URL,
 })
 
 client.connect()
