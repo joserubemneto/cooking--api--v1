@@ -17,7 +17,7 @@ CREATE TABLE IF NOT EXISTS recipes (
   title text NOT NULL,
   ingredients text[] NOT NULL,
   preparation text[] NOT NULL,
-  information text NOT NULL,
+  information text,
   category_id UUID,
   chef_id UUID,
   FOREIGN KEY(category_id) REFERENCES categories(id),
