@@ -12,4 +12,4 @@ app.use((error, request, response, next) => {
   response.sendStatus(500)
 })
 
-app.listen(process.env.PORT || 3000, () => console.log('Server is running on port http://localhost:3000'))
+app.listen(process.env.PORT || 3000, () => console.log('Server is running'))
