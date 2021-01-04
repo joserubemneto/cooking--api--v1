@@ -16,7 +16,7 @@ class CategoryController {
 
     const categoryExists = await CategoriesRepository.findByName(name)
 
-    if (categoryExists) return response.status(400).json({ error: 'Category already exists' })
+    if (categoryExists) return response.status(400).json({ error: 'This Category already exists' })
 
     const category = await CategoriesRepository.create({ name })
 
@@ -40,6 +40,7 @@ class CategoryController {
     const categoryExists = await CategoriesRepository.findById(id)
 
     if (!categoryExists) return response.status(400).json({ error: 'This category not exists' })
+    if(!name) return response.status(400).json({ error: 'Name is required' })
 
     const category = await CategoriesRepository.update(id, { name })
 
