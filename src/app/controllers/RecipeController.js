@@ -15,6 +15,8 @@ class RecipeController {
     if (!title) return response.status(400).json({ error: 'Title is required' })
     if (!ingredients) return response.status(400).json({ error: 'Ingredients is required' })
     if (!preparation) return response.status(400).json({ error: 'Preparation is required' })
+    if (!category_id) return response.status(400).json({ error: 'Category is required' })
+    if (!chef_id) return response.status(400).json({ error: 'Chef is required' })
 
     const recipe = await RecipesRepository.create({ title, ingredients, preparation, information, category_id, chef_id })
 
@@ -41,6 +43,8 @@ class RecipeController {
     if (!title) return response.status(400).json({ error: 'Title is required' })
     if (!ingredients) return response.status(400).json({ error: 'Ingredients is required' })
     if (!preparation) return response.status(400).json({ error: 'Preparation is required' })
+    if (!category_id) return response.status(400).json({ error: 'Category is required' })
+    if (!chef_id) return response.status(400).json({ error: 'Chef is required' })
 
     const recipe = await RecipesRepository.update(id, { title, ingredients, preparation, information, category_id, chef_id })
 
