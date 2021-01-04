@@ -36,6 +36,7 @@ class ChefController {
     const chefExists = await ChefsRepository.findById(id)
 
     if (!chefExists) return response.status(400).json({ error: 'This chef not exists' })
+    if (!name) return response.status(400).json({ error: 'Name is required' })
 
     const chef = await ChefsRepository.update(id, { name })
 
