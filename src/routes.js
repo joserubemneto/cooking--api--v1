@@ -6,6 +6,7 @@ const CategoryController = require('./app/controllers/CategoryController')
 const ChefController = require('./app/controllers/ChefController')
 
 router.get('/recipes', RecipeController.index)
+router.get('/recipes/:category_id', RecipeController.findByCategory)
 router.post('/recipes', RecipeController.store)
 router.get('/recipe/:id', RecipeController.show)
 router.put('/recipe/:id', RecipeController.update)
