@@ -5,6 +5,12 @@ CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
 CREATE TABLE IF NOT EXISTS chefs (
   id UUID NOT NULL UNIQUE DEFAULT uuid_generate_v4(),
   name text NOT NULL
+  resume text NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS tags (
+  id UUID NOT NULL UNIQUE DEFAULT uuid_generate_v4(),
+  name text NOT NULL
 );
 
 CREATE TABLE IF NOT EXISTS categories (
@@ -20,6 +26,8 @@ CREATE TABLE IF NOT EXISTS recipes (
   information text,
   category_id UUID,
   chef_id UUID,
+  tag_id UUID,
   FOREIGN KEY(category_id) REFERENCES categories(id),
-  FOREIGN KEY(chef_id) REFERENCES chefs(id)
+  FOREIGN KEY(chef_id) REFERENCES chefs(id),
+  FOREIGN KEY(tag_id) REFERENCES tags(id)
 );
