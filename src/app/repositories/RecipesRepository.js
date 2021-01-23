@@ -92,7 +92,7 @@ class RecipesRepository {
       category_id = $5,
       chef_id = $6,
       tag_id = $7
-      WHERE id = $7
+      WHERE id = $8
       RETURNING *
     `,
       [
