@@ -9,16 +9,44 @@ class RecipeController {
     response.json(recipes)
   }
 
+  async findByCategory(request, response) {
+    const { category_id } = request.params
+
+    const recipes = await RecipesRepository.findByCategory(category_id)
+
+    response.json(recipes)
+  }
+
   async store(request, response) {
-    const { title, ingredients, preparation, information, category_id, chef_id } = request.body
+    const {
+      title,
+      ingredients,
+      preparation,
+      information,
+      category_id,
+      chef_id,
+      tag_id,
+    } = request.body
 
     if (!title) return response.status(400).json({ error: 'Title is required' })
-    if (!ingredients) return response.status(400).json({ error: 'Ingredients is required' })
-    if (!preparation) return response.status(400).json({ error: 'Preparation is required' })
-    if (!category_id) return response.status(400).json({ error: 'Category is required' })
-    if (!chef_id) return response.status(400).json({ error: 'Chef is required' })
+    if (!ingredients)
+      return response.status(400).json({ error: 'Ingredients is required' })
+    if (!preparation)
+      return response.status(400).json({ error: 'Preparation is required' })
+    if (!category_id)
+      return response.status(400).json({ error: 'Category is required' })
+    if (!chef_id)
+      return response.status(400).json({ error: 'Chef is required' })
 
-    const recipe = await RecipesRepository.create({ title, ingredients, preparation, information, category_id, chef_id })
+    const recipe = await RecipesRepository.create({
+      title,
+      ingredients,
+      preparation,
+      information,
+      category_id,
+      chef_id,
+      tag_id,
+    })
 
     response.json(recipe)
   }
@@ -35,18 +63,39 @@ class RecipeController {
 
   async update(request, response) {
     const { id } = request.params
-    const { title, ingredients, preparation, information, category_id, chef_id } = request.body
+    const {
+      title,
+      ingredients,
+      preparation,
+      information,
+      category_id,
+      chef_id,
+      tag_id,
+    } = request.body
 
     const recipeExists = await RecipesRepository.findById(id)
-    if (!recipeExists) return response.status(404).json({ error: 'Recipe not exists' })
+    if (!recipeExists)
+      return response.status(404).json({ error: 'Recipe not exists' })
 
     if (!title) return response.status(400).json({ error: 'Title is required' })
-    if (!ingredients) return response.status(400).json({ error: 'Ingredients is required' })
-    if (!preparation) return response.status(400).json({ error: 'Preparation is required' })
-    if (!category_id) return response.status(400).json({ error: 'Category is required' })
-    if (!chef_id) return response.status(400).json({ error: 'Chef is required' })
+    if (!ingredients)
+      return response.status(400).json({ error: 'Ingredients is required' })
+    if (!preparation)
+      return response.status(400).json({ error: 'Preparation is required' })
+    if (!category_id)
+      return response.status(400).json({ error: 'Category is required' })
+    if (!chef_id)
+      return response.status(400).json({ error: 'Chef is required' })
 
-    const recipe = await RecipesRepository.update(id, { title, ingredients, preparation, information, category_id, chef_id })
+    const recipe = await RecipesRepository.update(id, {
+      title,
+      ingredients,
+      preparation,
+      information,
+      category_id,
+      chef_id,
+      tag_id,
+    })
 
     response.json(recipe)
   }
