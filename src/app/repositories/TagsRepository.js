@@ -6,15 +6,27 @@ class TagsRepository {
       SELECT * from tags
     `)
 
+    const recipes = await db.query(`
+      SELECT * from recipes
+    `)
+
+    rows.map((tag, index) => {
+      recipes.map(recipe => {
+        if (recipe.tag_id[index] === tag.id) {
+          tag.recipes.push(recipe)
+        }
+      })
+    })
+
     return rows
   }
 
   async findById(id) {
     const [row] = await db.query(
       `
-      SELECT * FROM tags
-      WHERE id = $1
-    `,
+        SELECT * FROM tags
+        WHERE id = $1
+      `,
       [id]
     )
 
@@ -22,38 +34,42 @@ class TagsRepository {
   }
 
   async findRecipes(tagId) {
+    const recipes = []
     const rows = await db.query(
       `
       SELECT * from recipes
-      WHERE tag_id = $1
-    `,
-      [tagId]
+    `
     )
-    return rows
+    rows.map((recipe, index) => {
+      recipe.tag_id[index] === tagId
+      recipes.push(recipe)
+    })
+    return recipes
   }
 
-  async create(name) {
+  async create(name, recipes) {
     const [row] = await db.query(
       `
-      INSERT INTO tags (name)
-      VALUES ($1)
+      INSERT INTO tags (name, recipes)
+      VALUES ($1, $2)
       RETURNING *
     `,
-      [name]
+      [name, recipes]
     )
 
     return row
   }
 
-  async update(id, { name }) {
+  async update(id, { name, recipes }) {
     const [row] = await db.query(
       `
       UPDATE tags
-      SET name = $1
-      WHERE id = $2
+      SET name = $1,
+      recipes = $2
+      WHERE id = $3
       RETURNING *
     `,
-      [name, id]
+      [name, recipes, id]
     )
 
     return row
