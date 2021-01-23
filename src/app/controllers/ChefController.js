@@ -25,10 +25,11 @@ class ChefController {
     const { id } = request.params
 
     const chef = await ChefsRepository.findById(id)
+    const recipes = await ChefsRepository.findRecipes(id)
 
     if (!chef) return response.status(404).json({ error: 'Chef not found' })
 
-    response.json(chef)
+    response.json({ ...chef, recipes })
   }
 
   async update(request, response) {
