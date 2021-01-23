@@ -4,6 +4,7 @@ const router = Router()
 const RecipeController = require('./app/controllers/RecipeController')
 const CategoryController = require('./app/controllers/CategoryController')
 const ChefController = require('./app/controllers/ChefController')
+const TagController = require('./app/controllers/TagController')
 
 router.get('/recipes', RecipeController.index)
 router.get('/recipes/:category_id', RecipeController.findByCategory)
@@ -23,5 +24,11 @@ router.post('/chefs', ChefController.store)
 router.get('/chef/:id', ChefController.show)
 router.put('/chef/:id', ChefController.update)
 router.delete('/chef/:id', ChefController.delete)
+
+router.get('/highlights', TagController.index)
+router.post('/highlights', TagController.store)
+router.get('/highlight/:id', TagController.show)
+router.put('/highlight/:id', TagController.update)
+router.delete('/highlight/:id', TagController.delete)
 
 module.exports = router
