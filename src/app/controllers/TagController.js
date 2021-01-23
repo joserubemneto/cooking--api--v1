@@ -18,19 +18,19 @@ class TagController {
 
   async store(request, response) {
     const { name } = request.body
-
+    const recipes = []
     if (!name) return response.status(400).json({ error: 'Name is required' })
 
-    const tag = await TagsRepository.create(name)
+    const tag = await TagsRepository.create(name, recipes)
 
     response.json(tag)
   }
 
   async update(request, response) {
     const { id } = request.params
-    const { name } = request.body
+    const { name, recipes } = request.body
 
-    const tag = await TagsRepository.update(id, { name })
+    const tag = await TagsRepository.update(id, { name, recipes })
 
     response.json(tag)
   }
