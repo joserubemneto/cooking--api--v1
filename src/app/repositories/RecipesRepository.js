@@ -49,11 +49,12 @@ class RecipesRepository {
     category_id,
     chef_id,
     tag_id,
+    file_id,
   }) {
     const [row] = await db.query(
       `
-      INSERT INTO recipes (title, ingredients, preparation, information, category_id, chef_id, tag_id)
-      VALUES ($1, $2, $3, $4, $5, $6, $7)
+      INSERT INTO recipes (title, ingredients, preparation, information, category_id, chef_id, tag_id, file_id)
+      VALUES ($1, $2, $3, $4, $5, $6, $7, $8)
       RETURNING *
     `,
       [
@@ -64,6 +65,7 @@ class RecipesRepository {
         category_id,
         chef_id,
         tag_id,
+        file_id,
       ]
     )
 
