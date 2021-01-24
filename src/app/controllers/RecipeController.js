@@ -1,10 +1,26 @@
 const RecipesRepository = require('../repositories/RecipesRepository')
+const FilesRepository = require('../repositories/FilesRepository')
 
 class RecipeController {
   async index(request, response) {
     const { orderBy } = request.query
 
-    const recipes = await RecipesRepository.findAll(orderBy)
+    let recipes = await RecipesRepository.findAll(orderBy)
+
+    const recipesTemp = await Promise.all(
+      recipes.map(async (recipe) => {
+        const file = await FilesRepository.find(recipe.file_id)
+
+        return {
+          ...recipe,
+          avatar_url: `${request.protocol}://${
+            request.headers.host
+          }${file.path.replace('public', '')}`,
+        }
+      })
+    )
+
+    recipes = recipesTemp
 
     response.json(recipes)
   }
@@ -12,7 +28,22 @@ class RecipeController {
   async findByCategory(request, response) {
     const { category_id } = request.params
 
-    const recipes = await RecipesRepository.findByCategory(category_id)
+    let recipes = await RecipesRepository.findByCategory(category_id)
+
+    const recipesTemp = await Promise.all(
+      recipes.map(async (recipe) => {
+        const file = await FilesRepository.find(recipe.file_id)
+
+        return {
+          ...recipe,
+          avatar_url: `${request.protocol}://${
+            request.headers.host
+          }${file.path.replace('public', '')}`,
+        }
+      })
+    )
+
+    recipes = recipesTemp
 
     response.json(recipes)
   }
@@ -28,24 +59,38 @@ class RecipeController {
       tag_id,
     } = request.body
 
+    if (!request.file)
+      return response.status(400).json({ error: 'Send at least one image' })
+
     if (!title) return response.status(400).json({ error: 'Title is required' })
+
     if (!ingredients)
       return response.status(400).json({ error: 'Ingredients is required' })
+
     if (!preparation)
       return response.status(400).json({ error: 'Preparation is required' })
+
     if (!category_id)
       return response.status(400).json({ error: 'Category is required' })
+
     if (!chef_id)
       return response.status(400).json({ error: 'Chef is required' })
 
+    const file = await FilesRepository.create(request.file)
+
+    const formatData = {
+      ingredients: JSON.parse(ingredients),
+      preparation: JSON.parse(preparation),
+      tag_id: JSON.parse(tag_id),
+    }
+
     const recipe = await RecipesRepository.create({
       title,
-      ingredients,
-      preparation,
+      ...formatData,
       information,
       category_id,
       chef_id,
-      tag_id,
+      file_id: file.id,
     })
 
     response.json(recipe)
@@ -54,9 +99,18 @@ class RecipeController {
   async show(request, response) {
     const { id } = request.params
 
-    const recipe = await RecipesRepository.findById(id)
+    let recipe = await RecipesRepository.findById(id)
 
     if (!recipe) return response.status(404).json({ error: 'Recipe not found' })
+
+    const file = await FilesRepository.find(recipe.file_id)
+
+    recipe = {
+      ...recipe,
+      avatar_url: `${request.protocol}://${
+        request.headers.host
+      }${file.path.replace('public', '')}`,
+    }
 
     response.json(recipe)
   }
@@ -74,16 +128,21 @@ class RecipeController {
     } = request.body
 
     const recipeExists = await RecipesRepository.findById(id)
+
     if (!recipeExists)
       return response.status(404).json({ error: 'Recipe not exists' })
 
     if (!title) return response.status(400).json({ error: 'Title is required' })
+
     if (!ingredients)
       return response.status(400).json({ error: 'Ingredients is required' })
+
     if (!preparation)
       return response.status(400).json({ error: 'Preparation is required' })
+
     if (!category_id)
       return response.status(400).json({ error: 'Category is required' })
+
     if (!chef_id)
       return response.status(400).json({ error: 'Chef is required' })
 
@@ -102,6 +161,10 @@ class RecipeController {
 
   async delete(request, response) {
     const { id } = request.params
+
+    const result = await RecipesRepository.findById(id)
+
+    await FilesRepository.delete(result.file_id)
 
     await RecipesRepository.delete(id)
 
