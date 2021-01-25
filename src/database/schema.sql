@@ -22,7 +22,7 @@ CREATE TABLE IF NOT EXISTS categories (
 CREATE TABLE IF NOT EXISTS files (
   id SERIAL PRIMARY KEY,
   name text,
-  path text NOT NULL
+  path text
 );
 
 CREATE TABLE IF NOT EXISTS recipes (
