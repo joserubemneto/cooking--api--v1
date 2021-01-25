@@ -19,6 +19,12 @@ CREATE TABLE IF NOT EXISTS categories (
   name text NOT NULL
 );
 
+CREATE TABLE IF NOT EXISTS files (
+  id SERIAL PRIMARY KEY,
+  name text,
+  path text NOT NULL
+);
+
 CREATE TABLE IF NOT EXISTS recipes (
   id UUID NOT NULL UNIQUE DEFAULT uuid_generate_v4(),
   title text NOT NULL,
