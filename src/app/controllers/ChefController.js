@@ -36,15 +36,21 @@ class ChefController {
     if (!resume)
       return response.status(400).json({ error: 'Resume is required' })
 
-    const file = await FilesRepository.create(request.file)
+    try {
+      const file = await FilesRepository.create(request.file)
+      if (!file)
+        return response.status(400).json({ error: 'O erro é nos files' })
 
-    const chef = await ChefsRepository.create({
-      name,
-      resume,
-      file_id: file.id,
-    })
+      const chef = await ChefsRepository.create({
+        name,
+        resume,
+        file_id: file.id,
+      })
 
-    response.json(chef)
+      response.json(chef)
+    } catch (error) {
+      response.status(400).json({ error: `O erro está aqui ${error}` })
+    }
   }
 
   async show(request, response) {
