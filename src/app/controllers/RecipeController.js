@@ -44,7 +44,8 @@ class RecipeController {
 
     const recipe = await RecipesRepository.create({
       title,
-      ...formatData,
+      ingredients,
+      preparation,
       information,
       category_id,
       chef_id,
