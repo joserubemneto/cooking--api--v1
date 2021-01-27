@@ -45,7 +45,7 @@ class ChefsRepository {
     const [row] = await db.query(
       `
       INSERT INTO chefs (name, resume)
-      VALUES ($1, $2, $3)
+      VALUES ($1, $2)
       RETURNING *
     `,
       [name, resume]
