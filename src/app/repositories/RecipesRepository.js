@@ -49,12 +49,11 @@ class RecipesRepository {
     category_id,
     chef_id,
     tag_id,
-    file_id,
   }) {
     const [row] = await db.query(
       `
-      INSERT INTO recipes (title, ingredients, preparation, information, category_id, chef_id, tag_id, file_id)
-      VALUES ($1, $2, $3, $4, $5, $6, $7, $8)
+      INSERT INTO recipes (title, ingredients, preparation, information, category_id, chef_id, tag_id)
+      VALUES ($1, $2, $3, $4, $5, $6, $7)
       RETURNING *
     `,
       [
@@ -65,7 +64,6 @@ class RecipesRepository {
         category_id,
         chef_id,
         tag_id,
-        file_id,
       ]
     )
 
@@ -74,15 +72,7 @@ class RecipesRepository {
 
   async update(
     id,
-    {
-      title,
-      ingredients,
-      preparation,
-      information,
-      category_id,
-      chef_id,
-      tag_id,
-    }
+    { title, ingredients, preparation, information, category_id, chef_id }
   ) {
     const [row] = await db.query(
       `
@@ -93,20 +83,10 @@ class RecipesRepository {
       information = $4,
       category_id = $5,
       chef_id = $6,
-      tag_id = $7
-      WHERE id = $8
+      WHERE id = $7
       RETURNING *
     `,
-      [
-        title,
-        ingredients,
-        preparation,
-        information,
-        category_id,
-        chef_id,
-        tag_id,
-        id,
-      ]
+      [title, ingredients, preparation, information, category_id, chef_id, id]
     )
 
     return row

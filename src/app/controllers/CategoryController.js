@@ -5,31 +5,13 @@ class CategoryController {
   async index(request, response) {
     const { orderBy } = request.query
 
-    let categories = await CategoriesRepository.findAll(orderBy)
-
-    const categoriesTemp = await Promise.all(
-      categories.map(async (category) => {
-        const file = await FilesRepository.find(category.file_id)
-
-        return {
-          ...category,
-          avatar_url: `${request.protocol}://${
-            request.headers.host
-          }${file.path.replace('public', '')}`,
-        }
-      })
-    )
-
-    categories = categoriesTemp
+    const categories = await CategoriesRepository.findAll(orderBy)
 
     response.json(categories)
   }
 
   async store(request, response) {
     const { name } = request.body
-
-    if (!request.file)
-      return response.status(400).json({ error: 'Send at least one image' })
 
     if (!name) return response.status(400).json({ error: 'Name is required' })
 
@@ -40,12 +22,7 @@ class CategoryController {
         .status(400)
         .json({ error: 'This Category already exists' })
 
-    const file = await FilesRepository.create(request.file)
-
-    const category = await CategoriesRepository.create({
-      name,
-      file_id: file.id,
-    })
+    const category = await CategoriesRepository.create({ name })
 
     response.json(category)
   }
@@ -53,19 +30,10 @@ class CategoryController {
   async show(request, response) {
     const { id } = request.params
 
-    let categoryExists = await CategoriesRepository.findById(id)
+    const categoryExists = await CategoriesRepository.findById(id)
 
     if (!categoryExists)
       return response.status(404).json({ error: 'Category not found' })
-
-    const file = await FilesRepository.find(categoryExists.file_id)
-
-    categoryExists = {
-      ...categoryExists,
-      avatar_url: `${request.protocol}://${
-        request.headers.host
-      }${file.path.replace('public', '')}`,
-    }
 
     response.json(categoryExists)
   }
@@ -87,10 +55,6 @@ class CategoryController {
 
   async delete(request, response) {
     const { id } = request.params
-
-    const result = await CategoriesRepository.findById(id)
-
-    await FilesRepository.delete(result.file_id)
 
     await CategoriesRepository.delete(id)
 

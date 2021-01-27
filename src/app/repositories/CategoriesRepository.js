@@ -8,7 +8,7 @@ class CategoriesRepository {
       SELECT categories.*, count(recipes.id) AS recipes
       FROM categories
       LEFT JOIN recipes ON recipes.category_id = categories.id
-      GROUP BY (categories.id, categories.name, categories.file_id)
+      GROUP BY (categories.id, categories.name)
       ORDER BY name ${direction}
     `)
 
@@ -22,7 +22,7 @@ class CategoriesRepository {
       FROM categories
       LEFT JOIN recipes ON recipes.category_id = categories.id
       WHERE categories.id = $1
-      GROUP BY (categories.id, categories.name, categories.file_id)
+      GROUP BY (categories.id, categories.name)
     `,
       [id]
     )
@@ -42,14 +42,14 @@ class CategoriesRepository {
     return row
   }
 
-  async create({ name, file_id }) {
+  async create({ name }) {
     const [row] = await db.query(
       `
-      INSERT INTO categories (name, file_id)
-      VALUES ($1, $2)
+      INSERT INTO categories (name)
+      VALUES ($1)
       RETURNING *
     `,
-      [name, file_id]
+      [name]
     )
 
     return row

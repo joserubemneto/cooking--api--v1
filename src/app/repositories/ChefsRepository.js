@@ -7,7 +7,7 @@ class ChefsRepository {
       SELECT chefs.*, count(recipes.id) AS recipes
       FROM chefs
       LEFT JOIN recipes ON (recipes.chef_id = chefs.id)
-      GROUP BY (chefs.id, chefs.name, chefs.resume, chefs.file_id)
+      GROUP BY (chefs.id, chefs.name, chefs.resume)
       ORDER BY name ${direction}
     `)
 
@@ -21,7 +21,7 @@ class ChefsRepository {
       FROM chefs
       LEFT JOIN recipes ON (recipes.chef_id = chefs.id)
       WHERE chefs.id = $1
-      GROUP BY (chefs.id, chefs.name, chefs.resume, chefs.file_id)
+      GROUP BY (chefs.id, chefs.name, chefs.resume)
     `,
       [id]
     )
@@ -41,14 +41,14 @@ class ChefsRepository {
     return rows
   }
 
-  async create({ name, resume, file_id }) {
+  async create({ name, resume }) {
     const [row] = await db.query(
       `
-      INSERT INTO chefs (name, resume, file_id)
+      INSERT INTO chefs (name, resume)
       VALUES ($1, $2, $3)
       RETURNING *
     `,
-      [name, resume, file_id]
+      [name, resume]
     )
 
     return row
