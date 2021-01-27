@@ -72,7 +72,15 @@ class RecipesRepository {
 
   async update(
     id,
-    { title, ingredients, preparation, information, category_id, chef_id }
+    {
+      title,
+      ingredients,
+      preparation,
+      information,
+      category_id,
+      chef_id,
+      tag_id,
+    }
   ) {
     const [row] = await db.query(
       `
@@ -83,7 +91,8 @@ class RecipesRepository {
       information = $4,
       category_id = $5,
       chef_id = $6,
-      WHERE id = $7
+      tag_id = $7
+      WHERE id = $8
       RETURNING *
     `,
       [title, ingredients, preparation, information, category_id, chef_id, id]
