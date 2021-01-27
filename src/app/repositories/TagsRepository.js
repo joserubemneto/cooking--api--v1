@@ -11,7 +11,7 @@ class TagsRepository {
     `)
 
     rows.map((tag, index) => {
-      recipes.map(recipe => {
+      recipes.map((recipe) => {
         if (recipe.tag_id[index] === tag.id) {
           tag.recipes.push(recipe)
         }
@@ -87,5 +87,5 @@ class TagsRepository {
     return deleteOp
   }
 }
-
+//
 module.exports = new TagsRepository()
