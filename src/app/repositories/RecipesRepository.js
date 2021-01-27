@@ -95,7 +95,16 @@ class RecipesRepository {
       WHERE id = $8
       RETURNING *
     `,
-      [title, ingredients, preparation, information, category_id, chef_id, id]
+      [
+        title,
+        ingredients,
+        preparation,
+        information,
+        category_id,
+        chef_id,
+        tag_id,
+        id,
+      ]
     )
 
     return row
