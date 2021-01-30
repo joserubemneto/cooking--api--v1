@@ -32,6 +32,10 @@ class TagController {
     const { id } = request.params
     const { name, resume, recipes } = request.body
 
+    if (!name) return response.status(400).json({ error: 'Name is required' })
+    if (!resume)
+      return response.status(400).json({ error: 'Resume is required' })
+
     const tag = await TagsRepository.update(id, { name, resume, recipes })
 
     response.json(tag)
