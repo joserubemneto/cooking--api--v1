@@ -11,6 +11,7 @@ CREATE TABLE IF NOT EXISTS chefs (
 CREATE TABLE IF NOT EXISTS tags (
   id UUID NOT NULL UNIQUE DEFAULT uuid_generate_v4(),
   name text NOT NULL,
+  resume text,
   recipes text[]
 );
 
