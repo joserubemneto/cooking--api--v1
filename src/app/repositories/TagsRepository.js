@@ -65,8 +65,8 @@ class TagsRepository {
       `
       UPDATE tags
       SET name = $1,
-      recipes = $2,
-      resume = $3
+      resume = $2,
+      recipes = $3
       WHERE id = $4
       RETURNING *
     `,
