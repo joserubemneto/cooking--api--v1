@@ -47,29 +47,30 @@ class TagsRepository {
     return recipes
   }
 
-  async create(name, recipes) {
+  async create(name, resume, recipes) {
     const [row] = await db.query(
       `
-      INSERT INTO tags (name, recipes)
-      VALUES ($1, $2)
+      INSERT INTO tags (name, resume, recipes)
+      VALUES ($1, $2, $3)
       RETURNING *
     `,
-      [name, recipes]
+      [name, resume, recipes]
     )
 
     return row
   }
 
-  async update(id, { name, recipes }) {
+  async update(id, { name, resume, recipes }) {
     const [row] = await db.query(
       `
       UPDATE tags
       SET name = $1,
-      recipes = $2
-      WHERE id = $3
+      recipes = $2,
+      resume = $3
+      WHERE id = $4
       RETURNING *
     `,
-      [name, recipes, id]
+      [name, resume, recipes, id]
     )
 
     return row
