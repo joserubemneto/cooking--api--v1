@@ -12,9 +12,13 @@ class TagsRepository {
 
     rows.map((tag, index) => {
       recipes.map((recipe) => {
-        if (recipe.tag_id[index] === tag.id) {
-          tag.recipes.push(recipe)
-        }
+        console.log(tag.name)
+        console.log(recipe.title)
+        recipe.tag_id.map((id) => {
+          if (id === tag.id) {
+            tag.recipes.push(recipe)
+          }
+        })
       })
     })
 
@@ -41,8 +45,11 @@ class TagsRepository {
     `
     )
     rows.map((recipe, index) => {
-      recipe.tag_id[index] === tagId
-      recipes.push(recipe)
+      recipe.tag_id.map((id) => {
+        if (id === tagId) {
+          recipes.push(recipe)
+        }
+      })
     })
     return recipes
   }
