@@ -15,4 +15,4 @@ app.use((error, request, response, next) => {
   response.sendStatus(500)
 })
 
-app.listen(process.env.PORT || 3000, () => console.log('Server is running'))
+app.listen(process.env.PORT || 3002, () => console.log('Server is running'))
