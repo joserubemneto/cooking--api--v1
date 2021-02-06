@@ -2,14 +2,9 @@ const TagsRepository = require('../repositories/TagsRepository')
 
 class TagController {
   async index(request, response) {
-    try {
-      const tags = await TagsRepository.findAll()
+    const tags = await TagsRepository.findAll()
 
-      response.json(tags)
-    } catch (err) {
-      console.log(err)
-      console.log('Erro aqui')
-    }
+    response.json(tags)
   }
 
   async show(request, response) {
