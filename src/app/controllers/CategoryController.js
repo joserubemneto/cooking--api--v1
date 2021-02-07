@@ -41,13 +41,15 @@ class CategoryController {
 
   async update(request, response) {
     const { id } = request.params
-    const { name } = request.body
+    const { name, img_url } = request.body
 
     const categoryExists = await CategoriesRepository.findById(id)
 
     if (!categoryExists)
       return response.status(400).json({ error: 'This category not exists' })
     if (!name) return response.status(400).json({ error: 'Name is required' })
+    if (!img_url)
+      return response.status(400).json({ error: 'Image is required' })
 
     const category = await CategoriesRepository.update(id, { name })
 
