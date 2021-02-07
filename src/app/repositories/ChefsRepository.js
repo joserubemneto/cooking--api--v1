@@ -41,29 +41,30 @@ class ChefsRepository {
     return rows
   }
 
-  async create({ name, resume }) {
+  async create({ name, resume, img_url }) {
     const [row] = await db.query(
       `
-      INSERT INTO chefs (name, resume)
-      VALUES ($1, $2)
+      INSERT INTO chefs (name, resume, img_url)
+      VALUES ($1, $2, $3)
       RETURNING *
     `,
-      [name, resume]
+      [name, resume, img_url]
     )
 
     return row
   }
 
-  async update(id, { name, resume }) {
+  async update(id, { name, resume, img_url }) {
     const [row] = await db.query(
       `
       UPDATE chefs
       SET name = $1,
-      resume = $2
-      WHERE id = $3
+      resume = $2,
+      img_url = $3
+      WHERE id = $4
       RETURNING *
     `,
-      [name, resume, id]
+      [name, resume, img_url, id]
     )
 
     return row

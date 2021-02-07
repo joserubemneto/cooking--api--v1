@@ -10,14 +10,17 @@ class ChefController {
   }
 
   async store(request, response) {
-    const { name, resume } = request.body
+    const { name, resume, img_url } = request.body
 
     if (!name) return response.status(400).json({ error: 'Name is required' })
 
     if (!resume)
       return response.status(400).json({ error: 'Resume is required' })
 
-    const chef = await ChefsRepository.create({ name, resume })
+    if (!img_url)
+      return response.status(400).json({ error: 'Image is required' })
+
+    const chef = await ChefsRepository.create({ name, resume, img_url })
 
     response.json(chef)
   }
@@ -35,7 +38,7 @@ class ChefController {
 
   async update(request, response) {
     const { id } = request.params
-    const { name, resume } = request.body
+    const { name, resume, img_url } = request.body
 
     const chefExists = await ChefsRepository.findById(id)
 
@@ -45,7 +48,10 @@ class ChefController {
     if (!resume)
       return response.status(400).json({ error: 'Resume is required' })
 
-    const chef = await ChefsRepository.update(id, { name, resume })
+    if (!img_url)
+      return response.status(400).json({ error: 'Image is required' })
+
+    const chef = await ChefsRepository.update(id, { name, resume, img_url })
 
     response.json(chef)
   }
