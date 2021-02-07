@@ -99,7 +99,7 @@ class RecipesRepository {
       chef_id = $6,
       tag_id = $7,
       img_url = $8,
-      resume = $9,
+      resume = $9
       WHERE id = $10
       RETURNING *
     `,
