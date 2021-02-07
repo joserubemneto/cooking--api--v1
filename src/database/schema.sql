@@ -32,6 +32,7 @@ CREATE TABLE IF NOT EXISTS recipes (
   chef_id UUID,
   tag_id text[],
   img_url text NOT NULL,
+  resume text,
   FOREIGN KEY(category_id) REFERENCES categories(id),
   FOREIGN KEY(chef_id) REFERENCES chefs(id)
 );
