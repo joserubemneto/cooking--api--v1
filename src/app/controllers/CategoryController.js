@@ -51,7 +51,7 @@ class CategoryController {
     if (!img_url)
       return response.status(400).json({ error: 'Image is required' })
 
-    const category = await CategoriesRepository.update(id, { name })
+    const category = await CategoriesRepository.update(id, { name, img_url })
 
     response.json(category)
   }
