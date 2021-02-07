@@ -8,7 +8,7 @@ class CategoriesRepository {
       SELECT categories.*, count(recipes.id) AS recipes
       FROM categories
       LEFT JOIN recipes ON recipes.category_id = categories.id
-      GROUP BY (categories.id, categories.name)
+      GROUP BY (categories.id, categories.name, categories.img_url)
       ORDER BY name ${direction}
     `)
 
@@ -22,7 +22,7 @@ class CategoriesRepository {
       FROM categories
       LEFT JOIN recipes ON recipes.category_id = categories.id
       WHERE categories.id = $1
-      GROUP BY (categories.id, categories.name)
+      GROUP BY (categories.id, categories.name, categories.img_url)
     `,
       [id]
     )
@@ -42,28 +42,29 @@ class CategoriesRepository {
     return row
   }
 
-  async create({ name }) {
+  async create({ name, img_url }) {
     const [row] = await db.query(
       `
-      INSERT INTO categories (name)
-      VALUES ($1)
+      INSERT INTO categories (name, img_url)
+      VALUES ($1, $2)
       RETURNING *
     `,
-      [name]
+      [name, img_url]
     )
 
     return row
   }
 
-  async update(id, { name }) {
+  async update(id, { name, img_url }) {
     const [row] = await db.query(
       `
       UPDATE categories
-      SET name = $1
-      WHERE id = $2
+      SET name = $1,
+      img_url = $2
+      WHERE id = $3
       RETURNING *
     `,
-      [name, id]
+      [name, img_url, id]
     )
 
     return row

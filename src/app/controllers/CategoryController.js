@@ -10,9 +10,11 @@ class CategoryController {
   }
 
   async store(request, response) {
-    const { name } = request.body
+    const { name, img_url } = request.body
 
     if (!name) return response.status(400).json({ error: 'Name is required' })
+    if (!img_url)
+      return response.status(400).json({ error: 'Image is required' })
 
     const categoryExists = await CategoriesRepository.findByName(name)
 
@@ -21,7 +23,7 @@ class CategoryController {
         .status(400)
         .json({ error: 'This Category already exists' })
 
-    const category = await CategoriesRepository.create({ name })
+    const category = await CategoriesRepository.create({ name, img_url })
 
     response.json(category)
   }
