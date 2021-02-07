@@ -26,6 +26,7 @@ class RecipeController {
       category_id,
       chef_id,
       tag_id,
+      img_url,
     } = request.body
 
     if (!title) return response.status(400).json({ error: 'Title is required' })
@@ -42,6 +43,9 @@ class RecipeController {
     if (!chef_id)
       return response.status(400).json({ error: 'Chef is required' })
 
+    if (!img_url)
+      return response.status(400).json({ error: 'Image is required' })
+
     const recipe = await RecipesRepository.create({
       title,
       ingredients,
@@ -50,6 +54,7 @@ class RecipeController {
       category_id,
       chef_id,
       tag_id,
+      img_url,
     })
 
     response.json(recipe)
@@ -75,6 +80,7 @@ class RecipeController {
       category_id,
       chef_id,
       tag_id,
+      img_url,
     } = request.body
 
     const recipeExists = await RecipesRepository.findById(id)
@@ -96,6 +102,9 @@ class RecipeController {
     if (!chef_id)
       return response.status(400).json({ error: 'Chef is required' })
 
+    if (!img_url)
+      return response.status(400).json({ error: 'Image is required' })
+
     const recipe = await RecipesRepository.update(id, {
       title,
       ingredients,
@@ -104,6 +113,7 @@ class RecipeController {
       category_id,
       chef_id,
       tag_id,
+      img_url,
     })
 
     response.json(recipe)
