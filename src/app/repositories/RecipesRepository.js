@@ -50,11 +50,12 @@ class RecipesRepository {
     chef_id,
     tag_id,
     img_url,
+    resume,
   }) {
     const [row] = await db.query(
       `
-      INSERT INTO recipes (title, ingredients, preparation, information, category_id, chef_id, tag_id, img_url)
-      VALUES ($1, $2, $3, $4, $5, $6, $7, $8)
+      INSERT INTO recipes (title, ingredients, preparation, information, category_id, chef_id, tag_id, img_url, resume)
+      VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)
       RETURNING *
     `,
       [
@@ -66,6 +67,7 @@ class RecipesRepository {
         chef_id,
         tag_id,
         img_url,
+        resume,
       ]
     )
 
@@ -83,6 +85,7 @@ class RecipesRepository {
       chef_id,
       tag_id,
       img_url,
+      resume,
     }
   ) {
     const [row] = await db.query(
@@ -95,8 +98,9 @@ class RecipesRepository {
       category_id = $5,
       chef_id = $6,
       tag_id = $7,
-      img_url = $8
-      WHERE id = $9
+      img_url = $8,
+      resume = $9,
+      WHERE id = $10
       RETURNING *
     `,
       [
@@ -108,6 +112,7 @@ class RecipesRepository {
         chef_id,
         tag_id,
         img_url,
+        resume,
         id,
       ]
     )

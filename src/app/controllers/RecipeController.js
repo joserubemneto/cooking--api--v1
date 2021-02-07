@@ -27,6 +27,7 @@ class RecipeController {
       chef_id,
       tag_id,
       img_url,
+      resume,
     } = request.body
 
     if (!title) return response.status(400).json({ error: 'Title is required' })
@@ -55,6 +56,7 @@ class RecipeController {
       chef_id,
       tag_id,
       img_url,
+      resume,
     })
 
     response.json(recipe)
@@ -81,6 +83,7 @@ class RecipeController {
       chef_id,
       tag_id,
       img_url,
+      resume,
     } = request.body
 
     const recipeExists = await RecipesRepository.findById(id)
@@ -114,6 +117,7 @@ class RecipeController {
       chef_id,
       tag_id,
       img_url,
+      resume,
     })
 
     response.json(recipe)
